@@ -24,12 +24,19 @@ provider:
   region: us-east-1
 
 functions:
-  generateCertificate:
-    handler: src/functions/generateCertificate.handle
+  createTodo:
+    handler: src/functions/createTodo.handle
     events:
       - http:
-          path: /generateCertificate
+          path: /todo/{userid}
           method: POST
+          cors: true
+  listTodosByUser:
+    handler: src/functions/listTodosByUser.handle
+    events:
+      - http:
+          path: /todo/{userid}
+          method: GET
           cors: true
 
 resources:
@@ -37,7 +44,7 @@ resources:
     dbCertificateUsers:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: users_certificates
+        TableName: todos
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
